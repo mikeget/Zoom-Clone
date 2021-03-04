@@ -1,7 +1,7 @@
 
-const { Socket } = require("dgram");
+// const { Socket } = require("dgram");
 const express = require("express");
-const { request } = require("https");
+// const { request } = require("https");
 const app = express();
 const server = require("http").Server(app);
 const io = require("socket.io")(server)
@@ -24,15 +24,22 @@ app.get("/:room", (req, res) => {
     res.render("room", { roomId: req.params.room });
 });
 
-io.on("connection", (socket) => {
+io.on("connection", socket => {
     socket.on("join-room", (roomId, userId) => {
         socket.join(roomId);
-        socket.to(roomId).broadcast.emit("user-connected", userId);
-    });
+        socket.to(roomId).broadcast.emit("user_connected", userId);
+
+    socket.on("message", (message) => {
+    io.to(roomId).emit("creaateMessage", message);
+        });
+
+        socket.on("disconnect", () => {
+            socket.to(roomId).broadcast.emit("user_disconnected", userId);
+        });
+
+    })
 
 });
-
-
 
 
 server.listen(process.env.PORT || 3000);

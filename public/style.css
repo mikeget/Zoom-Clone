@@ -15,7 +15,7 @@ video {
 
 
 
-/* .main {
+.main {
     height: 100vh;
     display: flex;
 }
@@ -117,4 +117,4 @@ video {
 
 .unmute, .stop {
     color: #CC3B33;
-} */
+}
